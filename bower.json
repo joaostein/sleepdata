@@ -1,0 +1,21 @@
+{
+  "name": "sleepdata",
+  "version": "0.0.1",
+  "authors": [
+    "Joao Stein <joaosteing@gmail.com>"
+  ],
+  "description": "sleepcycle data analysis",
+  "main": "sleepData.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": ">= 3.3.13",
+    "angular": ">= 1.2.5"
+  }
+}
