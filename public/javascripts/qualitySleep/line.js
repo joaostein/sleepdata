@@ -16,7 +16,7 @@ var createLineGraph = function (data) {
     });
 
     chart.xAxis
-      .axisLabel("Hours of sleep")
+      .axisLabel("Time (h)")
 
     chart.yAxis
       .axisLabel('Quality (%)')
