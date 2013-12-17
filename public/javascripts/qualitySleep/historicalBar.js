@@ -1,4 +1,4 @@
-var createHistoricalBarChat = function (sleepData) {
+var createHistoricalBarChart = function (sleepData) {
   var chart;
   nv.addGraph(function() {
     chart = nv.models.historicalBarChart()
