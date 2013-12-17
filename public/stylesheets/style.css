@@ -1,5 +1,6 @@
 body {
   overflow-y:scroll;
+  font-family: Helvetica, Arial, sans-serif
 }
 
 text {
@@ -11,18 +12,11 @@ svg {
 }
 
 #chart1 svg {
-  height: 500px;
+  /*height: 500px;*/
   min-width: 200px;
   min-height: 100px;
-/*
-  margin: 50px;
-  Minimum height and width is a good idea to prevent negative SVG dimensions...
-  For example width should be =< margin.left + margin.right + 1,
-  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
-*/
-
 }
-#chart1 {
-  margin-top: 200px;
-  margin-left: 100px;
+
+h1 {
+  margin-left: 90px;
 }
