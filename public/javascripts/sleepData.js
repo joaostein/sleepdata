@@ -1,12 +1,21 @@
 d3.csv("javascripts/data.csv", function(error, row) {
   var data = [];
-  row.forEach(function(d) {
+  for (var i = 0; i < row.length; i++) {
+    if (row[i]['Sleep quality'].split('%')[0] < 10) {
+      continue;
+    }
+
     var night = {};
-
-    night.x = d['Time in bed'].split(':').join('.');
-    night.y = d['Sleep quality'].split('%')[0];
-
+    night.x = parseFloat(row[i]['Time in bed'].split(':').join('.')) + Math.random();
+    night.y = row[i]['Sleep quality'].split('%')[0];
+    night.minutes = row[i]['Time in bed'].split(':')[1];
     data.push(night);
+  }
+
+
+  data.forEach(function (d) {
+    console.log( d.x );
+    console.log( Math.floor(Math.round(parseFloat(d.x)*100)/100) );
   });
 
   var data = data.sort(function compare(a, b) {

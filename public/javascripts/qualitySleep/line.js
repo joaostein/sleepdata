@@ -9,18 +9,19 @@ var createLineGraph = function (sleepData) {
       },
       showLegend: true,
       tooltipContent: function (key, y, e, graph) {
-        var hour = y.split('.')[0];
-        var min = y.split('.')[1];
+        var hour = String(graph.point.x).split('.')[0];
+        var min = graph.point.minutes;
         return e + '% when sleeping ' + hour + 'h' + min + 'm';
       },
       x: function (d,i) {
-        return parseInt(d.x);
+        return d.x;
       },
-      transitionDuration: 250
+      transitionDuration: 250,
     });
 
     chart.xAxis
       .axisLabel("Time (h)")
+      .tickFormat(d3.format('0d'));
 
     chart.yAxis
       .axisLabel('Quality (%)')
@@ -35,7 +36,7 @@ var createLineGraph = function (sleepData) {
       .call(chart);
 
     nv.utils.windowResize(chart.update);
-    // chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+    chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
     return chart;
   });
 };
