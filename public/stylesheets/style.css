@@ -12,8 +12,8 @@ svg {
 }
 
 svg {
-  height: 500px;
-  width: 100%;
+  height: 200px;
+  width: 960px;
   min-width: 200px;
   min-height: 100px;
 }

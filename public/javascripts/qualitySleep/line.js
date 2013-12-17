@@ -1,18 +1,22 @@
-var createLineGraph = function (data) {
+var createLineGraph = function (sleepData) {
   var chart;
   nv.addGraph(function() {
     chart = nv.models.lineChart()
     .options({
-      margin: {left: 100, bottom: 100},
+      margin: {
+        left: 100,
+        bottom: 100,
+      },
+      showLegend: true,
+      tooltipContent: function (key, y, e, graph) {
+        var hour = y.split('.')[0];
+        var min = y.split('.')[1];
+        return e + '% when sleeping ' + hour + 'h' + min + 'm';
+      },
       x: function (d,i) {
-        if (d.x < 1) {
-          return 0;
-        }
         return parseInt(d.x);
       },
-      showXAxis: true,
-      showYAxis: true,
-      transitionDuration: 250,
+      transitionDuration: 250
     });
 
     chart.xAxis
@@ -22,17 +26,16 @@ var createLineGraph = function (data) {
       .axisLabel('Quality (%)')
 
     d3.select('#chart1 svg')
-      .attr('perserveAspectRatio', 'xMinYMid')
       .datum([{
         area: true,
-        values: data,
+        values: sleepData,
         key: "Data",
         color: "#ff7f0e"
       }])
       .call(chart);
 
     nv.utils.windowResize(chart.update);
-    chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+    // chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
     return chart;
   });
 };
