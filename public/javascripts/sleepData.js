@@ -1,79 +1,41 @@
-angular.module('sleepData', [])
-  .controller('mainController', function ($scope) {
+var chart;
 
-  })
-  .directive('ngVisualization', function (D3Service) {
-    return {
-      restrict: 'A',
-      scope: {},
-      link: function (scope, element, attrs) {
-        var w = 400;
-        var h = 200;
-        var margin = 20;
-        var y = d3.scale.linear().domain([0, d3.max(data)]).range([0 + margin, h - margin]);
-        var x = d3.scale.linear().domain([0, data.length]).range([0 + margin, w - margin]);
+nv.addGraph(function() {
+  chart = nv.models.lineChart()
+  .options({
+    margin: {left: 100, bottom: 100},
+    x: function(d,i) {
+      return d.x;
+    },
+    showXAxis: true,
+    showYAxis: true,
+    transitionDuration: 250
+  });
 
-        var svg = D3Service.createSvg(w, h, element[0]);
+  chart.xAxis
+    .axisLabel("Hours of sleep")
 
-        var group = svg.append('g')
-            .attr('transform', 'translate(0, 200)');
+  chart.yAxis
+    .axisLabel('Quality (%)')
 
-        var line = d3.svg.line()
-            .x(function(d,i) { return x(i); })
-            .y(function(d) { return -1 * y(d); })
+  d3.select('#chart1 svg')
+    .datum([{
+      area: true,
+      values: [
+        { x: 3, y: 34 },
+        { x: 4, y: 56 },
+        { x: 6, y: 66 },
+        { x: 6, y: 74 },
+        { x: 6, y: 75 },
+        { x: 8, y: 80 },
+        { x: 10, y: 95 },
+      ],
+      key: "Test",
+      color: "#ff7f0e"
+    }])
+    .call(chart);
 
-        group.append('path').attr({
-          'd': line(data)
-        });
-
-        group.append('line')
-            .attr('x1', x(0))
-            .attr('y1', -1 * y(0))
-            .attr('x2', x(w))
-            .attr('y2', -1 * y(0))
-
-        group.append('line')
-            .attr('x1', x(0))
-            .attr('y1', -1 * y(0))
-            .attr('x2', x(0))
-            .attr('y2', -1 * y(d3.max(data)))
-
-        group.selectAll('.xLabel')
-            .data(x.ticks(5))
-            .enter().append('text')
-            .attr('class', 'xLabel')
-            .text(String)
-            .attr('x', function(d) { return x(d) })
-            .attr('y', 0)
-            .attr('text-anchor', 'middle')
-
-        group.selectAll('.yLabel')
-            .data(y.ticks(4))
-            .enter().append('svg:text')
-            .attr('class', 'yLabel')
-            .text(String)
-            .attr('x', 0)
-            .attr('y', function(d) { return -1 * y(d) })
-            .attr('text-anchor', 'right')
-            .attr('dy', 4)
-
-        group.selectAll('.xTicks')
-            .data(x.ticks(5))
-            .enter().append('line')
-            .attr('class', 'xTicks')
-            .attr('x1', function(d) { return x(d); })
-            .attr('y1', -1 * y(0))
-            .attr('x2', function(d) { return x(d); })
-            .attr('y2', -1 * y(-0.3))
-
-        group.selectAll('.yTicks')
-            .data(y.ticks(4))
-            .enter().append('line')
-            .attr('class', 'yTicks')
-            .attr('y1', function(d) { return -1 * y(d); })
-            .attr('x1', x(-0.3))
-            .attr('y2', function(d) { return -1 * y(d); })
-            .attr('x2', x(0))
-      }
-    }
-  })
+  nv.utils.windowResize(chart.update);
+  chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+  return chart;
+});
