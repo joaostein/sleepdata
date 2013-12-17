@@ -18,4 +18,5 @@ d3.csv("javascripts/data.csv", function(error, row) {
   });
 
   createLineGraph(data);
+  createHistoricalBarChat(data);
 });

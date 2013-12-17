@@ -1,0 +1,3 @@
+var createHistoricalBarChat = function (data) {
+
+};
