@@ -1,5 +1,4 @@
 var createScatter = function (sleepData) {
-
     sleepData.forEach(function (d) {
       d.size = d.y;
       d.shape = 'circle';
@@ -9,18 +8,13 @@ var createScatter = function (sleepData) {
     nv.addGraph(function() {
       chart = nv.models.scatterChart()
       .options({
-        tooltipContent: function (key, y, e, graph) {
-          var hour = y.split('.')[0];
-          var min = y.split('.')[1];
-          return e + '% when sleeping ' + hour + 'h' + min + 'm';
-        },
         transitionDuration: 300,
         showDistX: true,
         showDistY: true,
-        useVoronoi: true
+        useVoronoi: true,
       });
 
-    d3.select('#chart3 svg')
+      d3.select('#chart3 svg')
         .datum([{
           values: sleepData,
           key: "Data",
@@ -28,9 +22,8 @@ var createScatter = function (sleepData) {
         }])
         .call(chart);
 
-    nv.utils.windowResize(chart.update);
-    chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
-    return chart;
+      nv.utils.windowResize(chart.update);
+      chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+      return chart;
   });
-
 };
