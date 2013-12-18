@@ -21,6 +21,7 @@ var createHistoricalBarChart = function (sleepData) {
 
     chart.xAxis
       .axisLabel("Time (h)")
+      .tickFormat(d3.format('0d'));
 
     chart.yAxis
       .axisLabel('Quality (%)')
