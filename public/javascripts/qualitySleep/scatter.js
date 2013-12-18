@@ -1,9 +1,4 @@
 var createScatter = function (sleepData) {
-    sleepData.forEach(function (d) {
-      d.size = d.y;
-      d.shape = 'circle';
-    });
-
     var chart;
     nv.addGraph(function() {
       chart = nv.models.scatterChart()
@@ -11,15 +6,18 @@ var createScatter = function (sleepData) {
         transitionDuration: 300,
         showDistX: true,
         showDistY: true,
-        useVoronoi: true,
+        useVoronoi: true
       });
 
+      chart.xAxis
+        .axisLabel("Time (h)")
+        .tickFormat(d3.format('0d'));
+
+      chart.yAxis
+        .axisLabel('Quality (%)')
+
       d3.select('#chart3 svg')
-        .datum([{
-          values: sleepData,
-          key: "Data",
-          color: "#ff7f0e"
-        }])
+        .datum(window.getData())
         .call(chart);
 
       nv.utils.windowResize(chart.update);

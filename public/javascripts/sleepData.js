@@ -27,6 +27,8 @@ d3.csv("javascripts/data.csv", function(error, row) {
     night.y = row[i]['Sleep quality'].split('%')[0];
     night.minutes = row[i]['Time in bed'].split(':')[1];
     night.month = (new Date(row[i]['Start'])).getMonth() + 1;
+    night.size = row[i]['Sleep quality'].split('%')[0];
+    night.shape = 'circle';
     monthData[night.month].push(night);
     rawData.push(night);
   }
@@ -122,5 +124,5 @@ d3.csv("javascripts/data.csv", function(error, row) {
 
   createLineGraph(monthData);
   createHistoricalBarChart(rawData);
-  // createScatter(data);
+  createScatter(monthData);
 });
