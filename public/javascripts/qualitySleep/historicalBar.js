@@ -9,8 +9,8 @@ var createHistoricalBarChart = function (sleepData) {
       },
       showLegend: true,
       tooltipContent: function (key, y, e, graph) {
-        var hour = y.split('.')[0];
-        var min = y.split('.')[1];
+        var hour = String(graph.point.x).split('.')[0];
+        var min = graph.point.minutes;
         return e + '% when sleeping ' + hour + 'h' + min + 'm';
       },
       x: function (d, i) {
@@ -25,20 +25,16 @@ var createHistoricalBarChart = function (sleepData) {
     chart.yAxis
       .axisLabel('Quality (%)')
 
-    chart.showXAxis(true);
-
     d3.select('#chart2 svg')
-      .datum([
-        {
-          values: sleepData,
-          key: "Data",
-          color: "#ff7f0e"
-        }
-      ])
+      .datum([{
+        values: sleepData,
+        key: "2013",
+        color: "#ff7f0e"
+      }])
       .call(chart);
 
     nv.utils.windowResize(chart.update);
-    // chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+    chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
     return chart;
   });
 };

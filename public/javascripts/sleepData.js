@@ -1,5 +1,5 @@
 d3.csv("javascripts/data.csv", function(error, row) {
-  var data = {
+  var monthData = {
     1: [],
     2: [],
     3: [],
@@ -14,6 +14,9 @@ d3.csv("javascripts/data.csv", function(error, row) {
     12: []
   };
 
+  var rawData = [];
+
+
   for (var i = 0; i < row.length; i++) {
     if (row[i]['Sleep quality'].split('%')[0] < 10) {
       continue;
@@ -24,11 +27,12 @@ d3.csv("javascripts/data.csv", function(error, row) {
     night.y = row[i]['Sleep quality'].split('%')[0];
     night.minutes = row[i]['Time in bed'].split(':')[1];
     night.month = (new Date(row[i]['Start'])).getMonth() + 1;
-    data[night.month].push(night);
+    monthData[night.month].push(night);
+    rawData.push(night);
   }
 
-  for (month in data) {
-    data[month] = data[month].sort(function (a, b) {
+  for (month in monthData) {
+    monthData[month] = monthData[month].sort(function (a, b) {
       var x1 = Math.round(parseFloat(a.x)*100)/100;
       var x2 = Math.round(parseFloat(b.x)*100)/100;
       if (x1 < x2)
@@ -39,7 +43,84 @@ d3.csv("javascripts/data.csv", function(error, row) {
     });
   }
 
-  createLineGraph(data);
-  createHistoricalBarChart(data);
-  createScatter(data);
+  window.getData = function () {
+    return [
+      {
+        values: monthData[1],
+        key: "January",
+        color: "#ff7f0e",
+        disabled: false
+      },
+      {
+        values: monthData[2],
+        key: "February",
+        color: "#2ca02c",
+        disabled: true
+      },
+      {
+        values: monthData[3],
+        key: "March",
+        color: "#2222ff",
+        disabled: true
+      },
+      {
+        values: monthData[4],
+        key: "April",
+        color: "#667711",
+        disabled: true
+      },
+      {
+        values: monthData[5],
+        key: "May",
+        color: "#ff0000",
+        disabled: true
+      },
+      {
+        values: monthData[6],
+        key: "June",
+        color: "#000000",
+        disabled: true
+      },
+      {
+        values: monthData[7],
+        key: "July",
+        color: "#e4ff00",
+        disabled: true
+      },
+      {
+        values: monthData[8],
+        key: "August",
+        color: "#f000ff",
+        disabled: true
+      },
+      {
+        values: monthData[9],
+        key: "September",
+        color: "#00fffc",
+        disabled: true
+      },
+      {
+        values: monthData[10],
+        key: "October",
+        color: "#b2b1b2",
+        disabled: true
+      },
+      {
+        values: monthData[11],
+        key: "November",
+        color: "#8bfe58",
+        disabled: true
+      },
+      {
+        values: monthData[12],
+        key: "December",
+        color: "#9fc2fc",
+        disabled: true
+      }
+    ];
+  };
+
+  createLineGraph(monthData);
+  createHistoricalBarChart(rawData);
+  // createScatter(data);
 });
